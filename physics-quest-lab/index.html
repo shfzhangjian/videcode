@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071a2a">
+  <meta name="description" content="通过未来岛工程任务、动画实验与分层题目，理解并记住初中物理关键知识。">
+  <title>物理造物局｜未来岛工程挑战</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23071a2a'/%3E%3Cpath d='M13 42h38M18 38l8-18 8 18 8-13 5 13' fill='none' stroke='%23ffd166' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='26' cy='20' r='4' fill='%234fe3c1'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="物理造物局首页">
+        <span class="brand-mark">Φ</span>
+        <span><strong>物理造物局</strong><small>未来岛工程挑战</small></span>
+      </a>
+      <div class="status-strip" aria-label="学习状态">
+        <span><b id="energyCount">0</b> ⚡能量</span>
+        <span><b id="partCount">0</b>/6 🔩部件</span>
+        <span class="rank">见习工程师</span>
+      </div>
+    </header>
+
+    <nav class="main-tabs" aria-label="主要功能">
+      <button class="tab active" data-view="missions" aria-selected="true">🧭 工程任务</button>
+      <button class="tab" data-view="knowledge" aria-selected="false">🗺️ 知识地图</button>
+      <button class="tab" data-view="mastery" aria-selected="false">🧩 易混母题</button>
+      <button class="tab" data-view="practice" aria-selected="false">🎯 题目训练</button>
+      <button class="tab" data-view="profile" aria-selected="false">📓 工程档案</button>
+    </nav>
+
+    <main id="main">
+      <section id="missionsView" class="view active-view">
+        <div class="mission-layout">
+          <aside class="mission-sidebar" aria-label="未来岛修复清单">
+            <div class="brief-card">
+              <span class="eyebrow">总目标 · 45分钟挑战</span>
+              <h1>重启未来岛</h1>
+              <p>暴风雨让科学节停摆。修好 6 个工程系统，今晚八点前重新点亮全岛。</p>
+              <div class="overall-progress"><span style="width: 8%"></span></div>
+            </div>
+            <ol class="mission-list" id="missionList"></ol>
+          </aside>
+
+          <article class="mission-workbench" id="missionWorkbench" aria-live="polite"></article>
+        </div>
+      </section>
+
+      <section id="knowledgeView" class="view" hidden>
+        <div class="section-head">
+          <div><span class="eyebrow cyan">22 个核心章节 · 8 条知识链</span><h2>知识地图</h2><p>不是背孤立结论，而是找到“现象—概念—公式—实验—易错点”之间的路。</p></div>
+          <label class="search-box">🔎<input id="knowledgeSearch" type="search" placeholder="搜索：浮力、欧姆定律、凸透镜…" aria-label="搜索知识点"></label>
+        </div>
+        <div class="filter-chips" id="knowledgeFilters" aria-label="知识分类"></div>
+        <div class="knowledge-grid" id="knowledgeGrid"></div>
+        <dialog id="knowledgeDialog" class="knowledge-dialog"><button class="dialog-close" aria-label="关闭">×</button><div id="knowledgeDetail"></div></dialog>
+      </section>
+
+      <section id="masteryView" class="view" hidden>
+        <div class="section-head mastery-head">
+          <div><span class="eyebrow">先辨析 · 再拆题 · 做变式 · 到期回练</span><h2>易混母题工坊</h2><p>一道母题不是背答案，而是练会识别题型；连续答对两次，才算真正入库。</p></div>
+          <div class="review-meter"><div><b id="masteredCount">0</b><span>已加固</span></div><div><b id="dueCount">8</b><span>待回练</span></div></div>
+        </div>
+        <div class="mastery-layout">
+          <aside class="confusion-panel">
+            <div class="review-loop"><span>记忆加固环</span><div><i class="active">辨</i><em></em><i>拆</i><em></em><i>练</i><em></em><i>返</i></div><small>答错会更快重现；答对后逐步拉长间隔。</small></div>
+            <div class="confusion-list" id="confusionList"></div>
+          </aside>
+          <article class="master-problem" id="masterProblemCard" aria-live="polite"></article>
+        </div>
+      </section>
+
+      <section id="practiceView" class="view" hidden>
+        <div class="section-head">
+          <div><span class="eyebrow">即时反馈 · 错因诊断</span><h2>题目训练场</h2><p>先说理由再看答案；每次错误都会自动加入“返工清单”。</p></div>
+          <div class="practice-summary"><b id="practiceAccuracy">—</b><span>当前正确率</span></div>
+        </div>
+        <div class="practice-layout">
+          <aside class="practice-controls">
+            <h3>本轮设置</h3>
+            <label for="practiceGroup">知识链</label>
+            <select id="practiceGroup"></select>
+            <label for="practiceLevel">难度</label>
+            <select id="practiceLevel"><option value="all">全部难度</option><option value="基础">基础</option><option value="进阶">进阶</option><option value="挑战">挑战</option></select>
+            <button class="primary-btn" id="newPractice">换一道题</button>
+            <button class="ghost-btn full" id="wrongPractice">只练返工题 <span id="wrongCount">0</span></button>
+            <div class="mini-note">做题顺序：圈关键词 → 画过程 → 选规律 → 再计算。</div>
+          </aside>
+          <article class="quiz-card" id="quizCard"></article>
+        </div>
+      </section>
+
+      <section id="profileView" class="view" hidden>
+        <div class="section-head">
+          <div><span class="eyebrow cyan">看得见的成长</span><h2>我的工程档案</h2><p>记录完成度、错因和自己的物理解释。数据只保存在这台设备上。</p></div>
+          <button class="ghost-btn" id="resetProgress">重新开始</button>
+        </div>
+        <div class="profile-grid">
+          <section class="profile-card blueprint" id="profileStats"></section>
+          <section class="profile-card"><span class="eyebrow">我的徽章</span><div class="badge-grid" id="badgeGrid"></div></section>
+          <section class="profile-card reflection-card">
+            <span class="eyebrow cyan">工程师复盘</span><h3>今天我改掉了哪个“想当然”？</h3>
+            <textarea id="reflectionNote" rows="6" placeholder="例如：我原来以为物体越重越容易下沉，实验后发现还要比较物体和液体的密度……"></textarea>
+            <button class="primary-btn" id="saveReflection">保存复盘</button>
+          </section>
+          <section class="profile-card source-card">
+            <span class="eyebrow">知识框架依据</span><h3>从课标出发，但题目与游戏均为原创</h3>
+            <p>知识范围参考教育部 2022 年版课程标准与人民教育出版社教材目录，按学生更容易建立联系的 8 条知识链重组。</p>
+            <div class="source-links">
+              <a href="https://www.moe.gov.cn/srcsite/A26/s8001/202204/t20220420_619921.html" target="_blank" rel="noreferrer">教育部课程标准 ↗</a>
+              <a href="https://www.pep.com.cn/products/jc/czjks/201510/t20151026_1250694.shtml" target="_blank" rel="noreferrer">八年级上册目录 ↗</a>
+              <a href="https://www.pep.com.cn/products/jc/czjks/201510/t20151026_1250712.shtml" target="_blank" rel="noreferrer">八年级下册目录 ↗</a>
+              <a href="https://www.pep.com.cn/products/jc/czjks/201510/t20151026_1250822.shtml" target="_blank" rel="noreferrer">九年级目录 ↗</a>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+    <footer><span>物理造物局 · 把“我记得”变成“我能解释、能验证、能迁移”</span><button id="teacherMode">教师使用建议</button></footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog id="teacherDialog" class="knowledge-dialog"><button class="dialog-close" aria-label="关闭">×</button><div class="teacher-guide"><span class="eyebrow">一节课怎么用</span><h2>把答案留到实验之后</h2><ol><li><b>课前 3 分钟：</b>打开“易混母题”，优先完成已经到期的回练卡。</li><li><b>3 分钟：</b>只展示任务情境，让学生写下预测。</li><li><b>8 分钟：</b>两人一组调参数，至少制造一次失败。</li><li><b>5 分钟：</b>用“主张—证据—规律”口头解释。</li><li><b>8 分钟：</b>完成固化题，并把错误归因到概念、过程或计算。</li><li><b>5 分钟：</b>换一个生活情境，让学生自己出题。</li></ol><p class="mini-note">关键不是一次答对，而是让学生看到“预测可以被证据修正”，并在间隔后还能独立选对规律。</p></div></dialog>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
